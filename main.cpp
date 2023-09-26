@@ -113,7 +113,7 @@ void Printer(const char *MSG, simplecrypt SC){
                   if((int)E > 127) {
                     E -=128;
                   }
-                  if((int)E < 33){
+                  if((int)E < 32){
                     E +=32;
                   }
                   std::cout << E;
