@@ -108,8 +108,24 @@ void Printer(const char *MSG, simplecrypt SC){
                      running = false;
                    } break;
       default : {
+
                   E = MSG[count] ^ SC.GetKey(count);
+                  if((int)E > 127) {
+                    E -=128;
+                  }
+                  if((int)E < 33){
+                    E +=32;
+                  }
                   std::cout << E;
+                  /*
+                  if (std::isprint(static_cast<unsigned char>(E))) {
+                    // Check if the character is printable ASCII
+                    std::cout << E;
+                  } else {
+                    // Character is not printable ASCII, use escape sequence
+                    std::cout << "\\x" << std::hex << static_cast<int>(E) << std::dec;
+                  }
+                  */
                   
                 } break;
 
@@ -158,7 +174,6 @@ int main(int argc, char** argv){
                  case('e') : {
                                std::cout << "Encrypted Message | ";
                                SC.SetKey(argv[4],atoi(argv[2])-1);
-                               std::cout << "Encrypted Message : ";
                                Printer(argv[3], SC);
 
 
@@ -166,7 +181,6 @@ int main(int argc, char** argv){
                  case('d') : {
                                std::cout << "Decrypted Message | ";
                                SC.SetKey(argv[4],atoi(argv[2])-1);
-                               std::cout << "Decrypted Message : ";
                                Printer(argv[3], SC);
 
                              } break;
