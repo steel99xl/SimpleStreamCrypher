@@ -1,6 +1,5 @@
 #include <iostream>
 #include <fstream>
-#include <cstring>
 
 void Help(){
 
@@ -60,18 +59,35 @@ void SaveKey(const char *Key){
 
 void LoadKey(simplecrypt* SC){
   std::fstream File;
-  std::string TKey;
-  int Size = 0;
+  int InitSize = 512;
+  char *TKey = new char[InitSize];
+  int Size = InitSize;
+  int Count = 0;
   char c;
 
   File.open("/tmp/SC.key", std::ios::in);
   if(File.is_open()){
     while(File.get(c)){
-      TKey += c; 
-      Size+=1;
+      if(Count >= Size){
+        Size *=2;
+        
+        char *temp = new char[Size];
+
+        for(int i = 0; i < Count; i++){
+          temp[i] = TKey[i];
+
+        }
+          delete[] TKey;
+
+          TKey = temp;
+
+      }
+      TKey[Count] = c;
+      Count += 1;
 
     }
-    SC->SetKey(TKey.c_str(), Size);
+
+    SC->SetKey(TKey, Size);
 
     File.close();
 
@@ -142,7 +158,6 @@ int main(int argc, char** argv){
                  case('e') : {
                                std::cout << "Encrypted Message | ";
                                SC.SetKey(argv[4],atoi(argv[2])-1);
-                               std::cout << SC.Key << std::endl;
                                std::cout << "Encrypted Message : ";
                                Printer(argv[3], SC);
 
