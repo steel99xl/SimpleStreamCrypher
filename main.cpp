@@ -12,8 +12,6 @@ void Help(){
 
 }
 
-
-
 typedef struct simplecrypt{
   char* Key;
   int KeySize;
@@ -87,13 +85,12 @@ void LoadKey(simplecrypt* SC){
 
     }
 
-    SC->SetKey(TKey, Size);
+    SC->SetKey(TKey, Count);
 
     File.close();
 
   }
 }
-
 
 void Printer(const char *MSG, simplecrypt SC){
   bool running = true;
@@ -117,15 +114,6 @@ void Printer(const char *MSG, simplecrypt SC){
                     E +=32;
                   }
                   std::cout << E;
-                  /*
-                  if (std::isprint(static_cast<unsigned char>(E))) {
-                    // Check if the character is printable ASCII
-                    std::cout << E;
-                  } else {
-                    // Character is not printable ASCII, use escape sequence
-                    std::cout << "\\x" << std::hex << static_cast<int>(E) << std::dec;
-                  }
-                  */
                   
                 } break;
 
@@ -138,6 +126,7 @@ void Printer(const char *MSG, simplecrypt SC){
 
 
 };
+
 
 int main(int argc, char** argv){
 
